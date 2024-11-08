@@ -14,11 +14,25 @@ def check_null( ds, column: str):
 # -------------- Add column month --------------
 def add_month_column(data):
     print("\n\n--- AGREGANDO COLUMNA MES")
-    split_date = data.ReportDate.str.split(expand=True)
+    split_date = data['Fecha'].str.split('/', expand=True)
     
-    data['ReportDate'] = split_date[0]
+    #data['ReportDate'] = split_date[0]
 
-    print(data['ReportDate'])
+    print(split_date[0])
+
+    #print(data['ReportDate'])
+
+    return data
+
+def add_month_column_elegant(data):
+    print("\n\n--- AGREGANDO COLUMNA MES")
+    # Cambiamos a datetime el atributo fecha para hacerlo compatible con operaciones de tiempo
+    data['Fecha'] = pd.to_datetime(data['Fecha'], format='%d/%m/%Y')
+
+    # Crear las columnas de Día, Mes y Año
+    data['Día'] = data['Fecha'].dt.day
+    data['Mes'] = data['Fecha'].dt.month
+    data['Año'] = data['Fecha'].dt.year
 
     return data
 
@@ -37,6 +51,7 @@ new_column_names.append({'id colaborador':'idColaborador'})
 new_column_names.append({'Nombre ':'Nombre'})
 new_column_names.append({'Fecha ':'Fecha'})
 new_column_names.append({'Regional CH':'RegionalCH'})
+new_column_names.append({'Motivo ':'Motivo'})
 new_column_names.append({'Área que busca':'AreaBuscada'})
 new_column_names.append({'Celular ':'Celular'})
 new_column_names.append({'Motivo de Contacto':'MotivoDeContacto'})
@@ -51,4 +66,7 @@ data = rename_columns(data, new_column_names)
 
 print(data.info())
 
+data = add_month_column_elegant(data)
+
+print(data.head())
 
