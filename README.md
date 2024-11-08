@@ -27,8 +27,9 @@ a) Eliminar tuplas con valores nulos para las siguientes columnas
 
 b) Reemplazar valores nulos de ticket por -1
 
-#### 4. Agregar columnas mes y día a partir de la fecha
-#### 5. Agregar columna con valor numérico de área buscada
+#### 4. Agregar columna con valor numérico de área buscada
+#### 5. Agregar columnas mes y día a partir de la fecha
+
 
 
 Colab de apoyo: https://colab.research.google.com/drive/16kGQLs3EEDMH4Tt_ja8y-OlhuOpexTwx?usp=sharing#scrollTo=Z0ki4DnK0Q_L
