@@ -1,6 +1,7 @@
 import pandas as pd
 
 file_name = 'assets/dataset-mesa-de-ayuda.csv'
+clean_file_name = 'assets/dataset-mesa-de-ayuda-cleaned.csv'
 data = pd.read_csv(file_name)
 
 print(data.info())
@@ -54,24 +55,33 @@ def add_searched_area_code_column(data):
     data['CodigoAreaBuscada'].replace({
         'Administración de Personal': 1,
         'Administración de Personal ': 1,
+        'Administración de personal': 1,
+        'Administración de personal ': 1,
         'Compensaciones y Beneficios': 2,
         'Compensaciones y Beneficios ': 2,
+        'Compensaciones y beneficios': 2,
+        'Compensaciones y beneficios ': 2,
         'Relaciones Laborales': 3,
         'Relaciones Laborales ': 3,
+        'Relaciones laborales': 3,
         'Regionales de CH': 4,
         'Regionales de CH ': 4,
         'Uniformes y Epp': 5,
         'Uniformes y Epp ': 5,
+        'Uniformes y epp': 5,
+        'Uniformes y EPP': 5,
         'Universidad Apymsa': 6,
         'Universidad Apymsa ': 6,
         'Otros': 7,
         'Otros ': 7
-         
     }, inplace=True)
+
+    data['CodigoAreaBuscada'] = data['CodigoAreaBuscada'].astype('int32')
 
     #Falta reemplazar los nulos o eliminar
     print("\n\n--- AGREGANDO COLUMNA CODIGO DE AREA BUSCADA")
 
+    check_null(data)
     print(data.head(20))
     #print(data.info())
 
@@ -107,6 +117,14 @@ def add_month_column_elegant(data):
     return data
 
 
+def check_if_column_is_numeric(data, name):
+    if data['CodigoAreaBuscada'].str.isnumeric().all():
+    # Convertir la columna a tipo int32
+        data['CodigoAreaBuscada'] = data['CodigoAreaBuscada'].astype('int32')
+    else:
+        print("Existen valores no numéricos en la columna 'CodigoAreaBuscada'")
+
+
 # -------------- Generate new CSV --------------
 def save_csv(data):
     data.to_csv('assets/dataset-mesa-de-ayuda-cleaned.csv', index=False)
@@ -139,4 +157,8 @@ data = add_month_column_elegant(data)
 
 add_searched_area_code_column(data)
 
-#save_csv(data)
+print(data.info())
+
+print('\n\n\n---------------------------------------------------------\n\n\n')
+
+save_csv(data)
